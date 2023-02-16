@@ -107,7 +107,7 @@ const UserState = (props) => {
 
     const getClients = async () => {
         try {
-            const res = await axios.get(ruta+'/client')
+            const res = await axios.get(ruta+'/clients')
             dispatch({
                 type: 'GET_CLIENT',
                 payload: res.data.data

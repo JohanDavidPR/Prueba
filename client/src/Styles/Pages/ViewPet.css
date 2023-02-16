@@ -90,10 +90,11 @@
     width: calc(100% - 280px);
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
+    flex-wrap: wrap;
     padding: 10px;
-    gap: 10px;
+    gap: 20px 10px;
     overflow: hidden;
     overflow-y: scroll;
 }

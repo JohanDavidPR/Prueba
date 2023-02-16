@@ -11,12 +11,12 @@ export default function Pet() {
   const [searchParams] = useSearchParams();
 
   const petContex = useContext(PetContext);
-  const { pets, getPets, startLoading } = petContex;
+  const { pets, getPets, startLoadingPet } = petContex;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    startLoading();
+    startLoadingPet();
     getPets();
   }, []);
 

@@ -5,7 +5,8 @@
     justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
-    gap: 5px;
+    padding: 20px 0;
+    gap: 10px;
 }
 
 .cont-history-clinic {

@@ -6,15 +6,13 @@ import PetContext from "../Context/Pet/PetContext";
 
 import Modal from "./../Components/Modal";
 import Loading from "../Components/Loading";
+import Loading2 from './../Components/Loading2';
 
 import "../Styles/Pages/ViewPet.css";
 import CardRecord from "../Components/CardRecord";
 
 export default function ViewPet({ id }) {
-  const [modal, setModal] = useState({
-    modal: false,
-    info: {},
-  });
+  const [modal, setModal] = useState(false);
   const [input, setInput] = useState({});
   const [edit, editAction] = useState(false);
 
@@ -25,7 +23,7 @@ export default function ViewPet({ id }) {
   };
 
   const petContex = useContext(PetContext);
-  const { pet, getPet, deletePet, loading, startLoading } = petContex;
+  const { pet, getPet, deletePet, loadingPet, startLoadingPet } = petContex;
 
   const clinicalContex = useContext(ClinicalContext);
   const {
@@ -37,18 +35,16 @@ export default function ViewPet({ id }) {
     startLoadingClinical,
   } = clinicalContex;
 
-  const handleModal = (record) => {
-    setModal({ modal: !modal, info: record });
+  const handleModal = () => {
+    setModal(!modal);
   };
 
   useEffect(() => {
-    console.log(parseInt(id));
-    startLoading();
+    startLoadingPet();
     getPet(parseInt(id));
     setInput(pet);
     startLoadingClinical();
     getClinical(parseInt(id));
-    console.log("C: " + clinical);
   }, []);
 
   return (
@@ -101,13 +97,14 @@ export default function ViewPet({ id }) {
             <button
               onClick={() => {
                 deletePet(parseInt(id));
-                navigate('/pets')
+                navigate("/pets");
               }}
             >
               <ion-icon name="trash-outline"></ion-icon>
             </button>
             <button
               onClick={() => {
+                console.log(edit);
                 editAction(!edit);
               }}
             >
@@ -126,6 +123,7 @@ export default function ViewPet({ id }) {
           clinical.register.map((record) => {
             return (
               <CardRecord
+                modal={modal}
                 record={record}
                 modalHandle={handleModal}
                 key={record.id}
@@ -138,43 +136,9 @@ export default function ViewPet({ id }) {
           </>
         )}
       </div>
-
-      {modal.modal ? (
+      {loadingPet ? (
         <Modal>
-          <div className="modal">
-            <button className="btn-close">
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
-            <h2>
-              Fecha:{" "}
-              {modal.info && modal.info.id ? modal.info.date : "0000-00-00"}
-            </h2>
-            <h4>Temperatura: {modal.info && modal.info.id ? modal.info : 0}</h4>
-            <h4>Peso: {modal.info && modal.info.id ? modal.info : 0}</h4>
-            <h4>
-              Frecuencia cardiaca:{" "}
-              {modal.info && modal.info.id ? modal.info : "00-00"}
-            </h4>
-            <div className="data-employee">
-              <h3>
-                {modal.info && modal.info.id
-                  ? modal.info.employee.identification_number
-                  : 0}
-              </h3>
-              <h4>
-                {modal.info && modal.info.id
-                  ? modal.info.employee.name + modal.info.employee.last_name
-                  : ""}
-              </h4>
-              <p>
-                {modal.info && modal.info.id ? modal.info.employee.gender : ""}
-              </p>
-            </div>
-            <p>
-              Observacion:{" "}
-              {modal.info && modal.info.id ? modal.info.observation : ""}
-            </p>
-          </div>
+          <Loading2 />
         </Modal>
       ) : (
         <></>

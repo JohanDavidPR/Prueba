@@ -102,14 +102,14 @@ const PetState = (props) => {
         <PetContext.Provider value={{
             pets: state.pets,
             pet: state.pet,
-            loading: state.loading,
+            loadingPet: state.loading,
             error: state.error,
             getPet,
             getPets,
             addPet,
             updatePet,
             deletePet,
-            startLoading
+            startLoadingPet: startLoading
         }}>
             {props.children}
         </PetContext.Provider>
