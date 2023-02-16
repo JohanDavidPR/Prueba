@@ -18,7 +18,7 @@ namespace api.Controllers
         public async Task<ActionResult<Response>> Get()
         {
             var list = await data.getPets();
-            Response d = new Response("Get user", list);
+            Response d = new Response("Get pet", list);
             return d;
         }
 
