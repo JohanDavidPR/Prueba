@@ -6,14 +6,18 @@ import PetContext from "../Context/Pet/PetContext";
 
 import Modal from "./../Components/Modal";
 import Loading from "../Components/Loading";
-import Loading2 from './../Components/Loading2';
+import Loading2 from "./../Components/Loading2";
 
 import "../Styles/Pages/ViewPet.css";
 import CardRecord from "../Components/CardRecord";
 
 export default function ViewPet({ id }) {
   const [modal, setModal] = useState(false);
-  const [input, setInput] = useState({});
+  const [input, setInput] = useState({
+    name: '',
+    race: '',
+    sex: ''
+  });
   const [edit, editAction] = useState(false);
 
   const navigate = useNavigate();
@@ -23,7 +27,7 @@ export default function ViewPet({ id }) {
   };
 
   const petContex = useContext(PetContext);
-  const { pet, getPet, deletePet, loadingPet, startLoadingPet } = petContex;
+  const { pet, getPet, deletePet, loadingPet, startLoadingPet, updatePet } = petContex;
 
   const clinicalContex = useContext(ClinicalContext);
   const {
@@ -42,7 +46,6 @@ export default function ViewPet({ id }) {
   useEffect(() => {
     startLoadingPet();
     getPet(parseInt(id));
-    setInput(pet);
     startLoadingClinical();
     getClinical(parseInt(id));
   }, []);
@@ -68,30 +71,61 @@ export default function ViewPet({ id }) {
           <div className="info-cont-client-pet">
             {edit ? (
               <>
-                <h2>{pet && pet.id ? pet.name : "Nombre mascota"}</h2>
-                <h4>{pet && pet.id ? pet.race : "Raza"}</h4>
-                <h4>{pet && pet.id ? pet.sex : "Sexo"}</h4>
+                <input
+                  placeholder="Nombre"
+                  type="text"
+                  name="name"
+                  value={input.name}
+                  className="input"
+                  required=""
+                  onChange={handleChange}
+                ></input>
+                <input
+                  placeholder="Raza"
+                  type="text"
+                  name="race"
+                  value={input.race}
+                  className="input"
+                  required=""
+                  onChange={handleChange}
+                ></input>
+                <input
+                  placeholder="Sexo"
+                  type="text"
+                  name="sex"
+                  value={input.sex}
+                  className="input"
+                  required=""
+                  onChange={handleChange}
+                ></input>
+                <div className="btn-input-update">
+                  <button onClick={() => {
+                    startLoadingPet();
+                    updatePet(parseInt(id), input)
+                    editAction(!edit);
+                  }}>Actualizar</button>
+                </div>
               </>
             ) : (
               <>
                 <h2>{pet && pet.id ? pet.name : "Nombre mascota"}</h2>
                 <h4>{pet && pet.id ? pet.race : "Raza"}</h4>
                 <h4>{pet && pet.id ? pet.sex : "Sexo"}</h4>
+                <br />
+                <h3>Dueño</h3>
+                <h4>
+                  {pet && pet.id
+                    ? pet.client.name + " " + pet.client.last_name
+                    : "Nombre"}
+                </h4>
+                <p>
+                  {pet && pet.id
+                    ? pet.client.identification_number
+                    : "# identificacion"}
+                </p>
+                <p>{pet && pet.id ? pet.client.gender : "Genero"}</p>
               </>
             )}
-            <br />
-            <h3>Dueño</h3>
-            <h4>
-              {pet && pet.id
-                ? pet.client.name + " " + pet.client.last_name
-                : "Nombre"}
-            </h4>
-            <p>
-              {pet && pet.id
-                ? pet.client.identification_number
-                : "# identificacion"}
-            </p>
-            <p>{pet && pet.id ? pet.client.gender : "Genero"}</p>
           </div>
           <div className="options-pet">
             <button
@@ -104,7 +138,13 @@ export default function ViewPet({ id }) {
             </button>
             <button
               onClick={() => {
-                console.log(edit);
+                if(!edit){
+                  setInput({
+                    name: pet.name,
+                    race: pet.race,
+                    sex: pet.sex
+                  })
+                }
                 editAction(!edit);
               }}
             >

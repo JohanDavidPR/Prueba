@@ -136,20 +136,10 @@ namespace api.Database.DataModels
                     conector.Parameters.AddWithValue("name", data.name);
                     conector.Parameters.AddWithValue("sex", data.sex);
                     conector.Parameters.AddWithValue("race", data.race);
-                    using (NpgsqlDataReader item = await conector.ExecuteReaderAsync())
-                    {
-                        if (item.HasRows)
-                        {
-                            await item.ReadAsync();
-                            pet = new Pet();
-                            pet.Id = item.GetInt32("id");
-                            pet.name = item.GetString("name");
-                            pet.sex = item.GetString("sex");
-                            pet.race = item.GetString("race");
-                        }
-                    }
+                    await conector.ExecuteReaderAsync();
                 }
                 cn.Desconected();
+                pet = await getPet(id);
                 return new Response("Succes", pet);
             }
             catch (Exception ex)

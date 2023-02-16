@@ -50,6 +50,7 @@ export default (state, action) => {
                 ...state,
                 loading: false,
                 error: false,
+                pet: payload,
                 pets: state.pets.map( pet => {
                     if( pet.id === payload.id ){
                         return payload

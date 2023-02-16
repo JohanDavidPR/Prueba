@@ -33,7 +33,6 @@ const PetState = (props) => {
 
     const getPet = async (dato) => {
         try {
-            console.log(dato)
             const res = await axios.get(ruta+'/pet/'+dato)
             console.log(res.data)
             dispatch({
