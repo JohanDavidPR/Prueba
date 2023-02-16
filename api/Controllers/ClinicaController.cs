@@ -46,5 +46,12 @@ namespace api.Controllers
             return result;
         }
 
+        /*[HttpPost]
+        [Route("testruta")]
+        public async Task<ActionResult<Response>> Create([FromBody] ClinicHistoryReq dat)
+        {
+            var result = await data.addClinicalHistory(dat.pet);
+            return result;
+        }*/
     }
 }

@@ -111,14 +111,13 @@ namespace api.Database.DataModels
                     }
                     cn.Desconected();
                 }
-                if (pet != null)
-                    return await clinical.addClinicalHistory(pet.Id);
+                if (pet != null) await clinical.addClinicalHistory(pet.Id);
 
                 return new Response("Succes", pet);
             }
             catch (Exception ex)
             {
-                return new Response("error", "");
+                return new Response("error", ex.Message);
             }
         }
 
@@ -155,7 +154,7 @@ namespace api.Database.DataModels
             }
             catch (Exception ex)
             {
-                return new Response("error", "");
+                return new Response("error", ex.Message);
             }
         }
 
@@ -163,6 +162,16 @@ namespace api.Database.DataModels
         {
             try
             {
+                var clinical = new Clinical();
+
+                ClinicHistory? data = await clinical.GetClinicalHistory(id);
+
+                if(data != null)
+                {
+                    await clinical.deleteRecord(data.Id);
+                    await clinical.deleteClinical(id);
+                }
+
                 string query = "delete from pet where id = @id;";
 
                 cn.Conectar();
@@ -172,11 +181,12 @@ namespace api.Database.DataModels
                     await conector.ExecuteNonQueryAsync();
                 }
                 cn.Desconected();
+
                 return new Response("Succes", "");
             }
             catch (Exception ex)
             {
-                return new Response("error", "");
+                return new Response("error", ex.Message);
             }
         }
 

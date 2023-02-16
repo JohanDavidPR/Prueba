@@ -145,7 +145,7 @@ namespace api.Database
             }
             catch (Exception ex)
             {
-                return new Response("error", user);
+                return new Response("error", ex.Message);
             }
 
             return new Response("Succes", "");
@@ -189,7 +189,7 @@ namespace api.Database
             }
             catch (Exception ex)
             {
-                return new Response("error", data);
+                return new Response("error", ex.Message);
             }
         }
 
@@ -213,7 +213,7 @@ namespace api.Database
             }
             catch (Exception ex)
             {
-                return new Response("error", "");
+                return new Response("error", ex.Message);
             }
         }
 
@@ -238,7 +238,7 @@ namespace api.Database
             }
             catch (Exception ex)
             {
-                return new Response("error", "");
+                return new Response("error", ex.Message);
             }
         }
 

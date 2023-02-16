@@ -2,6 +2,7 @@
 using api.Models;
 using Npgsql;
 using System.Data;
+using System.Globalization;
 
 namespace api.Database.DataModels
 {
@@ -12,7 +13,11 @@ namespace api.Database.DataModels
         public async Task <List<ClinicHistory>> GetClinicalHistores()
         {
             var list = new List<ClinicHistory>();
-            string query = "select * from users u join (select ch.*,  p.name as namepet, p.race, p.sex, p.user_id from clinic_history ch join pet p on ch.pet_id = p.id ) as ch on ch.user_id = u.identification_number;";
+            string query = @"select * 
+                            from users u join 
+                            (select ch.*,  p.name as namepet, p.race, p.sex, p.user_id 
+                            from clinic_history ch join pet p on ch.pet_id = p.id ) 
+                            as ch on ch.user_id = u.identification_number;";
 
             cn.Conectar();
 
@@ -181,25 +186,26 @@ namespace api.Database.DataModels
         {
             try
             {
-                string hora = DateTime.Now.ToString("hh:mm");
+                string hora = DateTime.Now.ToString("HH:mm:ss");
                 string fecha = DateTime.UtcNow.ToString("yyyy-MM-dd");
-                string query = "insert into clinic_history (date, hour, pet_id) " +
-                "values (@date, @hour, @pet)";
+                DateTime dateTime = DateTime.ParseExact(hora, "HH:mm:ss", CultureInfo.InvariantCulture);
+
+                string query = @"insert into clinic_history (date, hour, pet_id) values (@date, @hour, @pet)";
 
                 cn.Conectar();
-                using (var conector = new NpgsqlCommand(query, cn.Conn))
+                await using (var conector = new NpgsqlCommand(query, cn.Conn))
                 {
-                    conector.Parameters.AddWithValue("date", fecha);
-                    conector.Parameters.AddWithValue("hour", hora);
+                    conector.Parameters.AddWithValue("date", DateTime.Parse(fecha));
+                    conector.Parameters.AddWithValue("hour", dateTime);
                     conector.Parameters.AddWithValue("pet", pet);
-                    await conector.ExecuteNonQueryAsync();
+                    await conector.ExecuteReaderAsync();
                 }
                 cn.Desconected();
                 return new Response("Succes", "");
             }
             catch (Exception ex)
             {
-                return new Response("error", "");
+                return new Response("error", ex.Message);
             }
         }
 
@@ -207,8 +213,9 @@ namespace api.Database.DataModels
         {
             try
             {
-                string hora = DateTime.Now.ToString("hh:mm");
+                string hora = DateTime.Now.ToString("HH:mm:ss");
                 string fecha = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                DateTime dateTime = DateTime.ParseExact(hora, "HH:mm:ss", CultureInfo.InvariantCulture);
                 string query = "insert into clinical_record (temperature, heart_rate, weight, observation, date, hour, employee_id, clinic_history_id) " +
                 "values (@temperature, @heart_rate, @weight, @observation, @date, @hour, @employee, @clinic_history);";
 
@@ -219,8 +226,8 @@ namespace api.Database.DataModels
                     conector.Parameters.AddWithValue("heart_rate", cr.heart_rate);
                     conector.Parameters.AddWithValue("weight", cr.weight);
                     conector.Parameters.AddWithValue("observation", cr.observation);
-                    conector.Parameters.AddWithValue("date", fecha);
-                    conector.Parameters.AddWithValue("hour", hora);
+                    conector.Parameters.AddWithValue("date", DateTime.Parse(fecha));
+                    conector.Parameters.AddWithValue("hour", dateTime);
                     conector.Parameters.AddWithValue("employee", cr.employee);
                     conector.Parameters.AddWithValue("clinic_history", cr.clinic_history);
                     await conector.ExecuteNonQueryAsync();
@@ -230,9 +237,51 @@ namespace api.Database.DataModels
             }
             catch (Exception ex)
             {
-                return new Response("error", cr);
+                return new Response("error", ex.Message);
             }
         }
 
+        public async Task<Response> deleteClinical(int id)
+        {
+            try
+            {
+                string query = @"delete from clinic_history where clinic_history_id = @id ";
+
+                cn.Conectar();
+                using (var conector = new NpgsqlCommand(query, cn.Conn))
+                {
+                    conector.Parameters.AddWithValue("id", id);
+                    await conector.ExecuteNonQueryAsync();
+                }
+                cn.Desconected();
+                return new Response("Succes", "");
+            }
+            catch (Exception ex)
+            {
+                return new Response("error", ex.Message);
+            }
+        }
+
+
+        public async Task <Response> deleteRecord(int id)
+        {
+            try
+            {
+                string query = @"delete from clinical_record where pet_id = @id ";
+
+                cn.Conectar();
+                using (var conector = new NpgsqlCommand(query, cn.Conn))
+                {
+                    conector.Parameters.AddWithValue("id", id);
+                    await conector.ExecuteNonQueryAsync();
+                }
+                cn.Desconected();
+                return new Response("Succes", "");
+            }
+            catch (Exception ex)
+            {
+                return new Response("error", ex.Message);
+            }
+        }
     }
 }
