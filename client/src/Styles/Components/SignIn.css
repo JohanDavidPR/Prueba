@@ -1,0 +1,114 @@
+.component-signin{
+    width: 330px;
+    height: 90%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.432);
+    backdrop-filter: blur(15px);
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    left: -150px;
+    background: white;
+}
+
+.component-signin h1{
+    flex: none;
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+}
+
+.contLogin{
+    position: relative;
+    width: 800px;
+    height: 85%;
+}
+
+.component-signin .contForm{
+    flex: none;
+    width: 92%;
+    padding: 9px 8px;
+    background: #E04A5C;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 20px 20px 0px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contForm .inputUsername, .contForm .inputPassword{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.contForm .inputUsername div, .contForm .inputPassword div{
+    width: 40px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contForm .inputUsername div ion-icon, .contForm .inputPassword div ion-icon{
+    font-size: 30px;
+    color: white;
+}
+
+.contForm .inputUsername input, .contForm .inputPassword input{
+    width: 270px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    padding: 8px 20px;
+    border-radius: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: rgb(22, 21, 21);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin: 5px 8px;
+    background: white;
+}
+
+.contForm .inputUsername label, .contForm .inputPassword label{
+    display: none;
+}
+
+
+.component-signin .contBtn{
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.component-signin .contBtn button{
+    padding: 10px 30px;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
+    font-weight: 800;
+    transition: 0.5s;
+}
+
+.component-signin .contBtn button:hover{
+    background: rgb(255, 72, 0);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.507);
+}

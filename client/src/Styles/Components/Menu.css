@@ -1,0 +1,98 @@
+.component-menu{
+    top: 5%;
+    left: 20px;
+    width: 60px;
+    height: 100%;
+    background: rgb(39, 197, 218);
+    border-radius: 10px;
+}
+
+.component-menu.active{
+    width: 220px;
+    transition: 1s;
+}
+
+.component-menu ul{
+    position: relative;
+    width: 100%;
+    /*margin-top: 90px;
+    height: calc(100% - 90px);*/
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.component-menu ul li{
+    width: 100%;
+    margin: 10px 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.component-menu ul li .link{
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    /*background: white;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.component-menu ul li button{
+    background: none;
+    border: none;
+    color: blue;
+}
+
+.component-menu ul li .link .icon{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+}
+
+.component-menu ul li .link ion-icon{
+    font-size: 25px;
+}
+
+.component-menu ul li .link span, .component-menu ul li button span{
+    width: 0;
+    overflow: hidden;
+}
+
+.component-menu.active ul li .link{
+    width: 90%;
+}
+
+.component-menu.active ul li .link span, .component-menu.active ul li button span{
+    width: calc( 100% - 60px );
+    height: 40px;
+    padding-left: 10px;
+    margin-left: 10px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.component-menu.active ul li button span {
+    margin-right: 5px;
+}
+
+.component-menu ul li.btn-cerrar-sesion {
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+}

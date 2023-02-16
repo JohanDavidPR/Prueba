@@ -1,0 +1,35 @@
+.page-session{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.body-session{
+    position: relative;
+    width: 400px;
+    height: 500px;
+}
+
+.fondo-info{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /*background: red;*/
+    top: 35px;
+    right: -150px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fondo-info img{
+    width: 100%;
+}
+
+.text-modal{
+    color: white;
+}

@@ -1,0 +1,36 @@
+.component-optionsbar {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-name-menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-name-menu button {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.cont-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.cont-icon img {
+    width: 100%;
+}
