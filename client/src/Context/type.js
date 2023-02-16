@@ -1,4 +1,5 @@
 export const GET_CLIENT = "GET_CLIENT";
+export const GET_USER = "GET_USER";
 export const VALIDAR_USER = "VALIDAR_USER";
 export const DELETE_USER = "DELETE_USER";
 export const UPDATE_USER = "UPDATE_USER";

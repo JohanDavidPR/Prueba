@@ -25,6 +25,15 @@ namespace api.Controllers
         }
 
         [HttpGet]
+        [Route("clients")]
+        public async Task<ActionResult<Response>> GetClient()
+        {
+            var listUser = await data.getClients();
+            Response d = new Response("Get user", listUser);
+            return d;
+        }
+
+        [HttpGet]
         [Route("user/{id}")]
         public async Task <ActionResult<User?>> Get(int id)
         {

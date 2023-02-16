@@ -1,5 +1,6 @@
 import {
     GET_CLIENT,
+    GET_USER,
     VALIDAR_USER,
     PROCESS_FAILURE,
     DELETE_USER,
@@ -12,6 +13,13 @@ import {
 export default (state, action) => {
     const {payload, type} = action
     switch(type){
+        case GET_USER:
+            return {
+                ...state,
+                loading: false,
+                error: false,
+                client: payload
+            }
         case TOGGLE_MENU:
             return {
                 ...state,

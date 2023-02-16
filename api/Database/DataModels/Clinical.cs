@@ -245,7 +245,7 @@ namespace api.Database.DataModels
         {
             try
             {
-                string query = @"delete from clinic_history where clinic_history_id = @id ";
+                string query = @"delete from clinic_history where pet_id = @id";
 
                 cn.Conectar();
                 using (var conector = new NpgsqlCommand(query, cn.Conn))
@@ -262,12 +262,11 @@ namespace api.Database.DataModels
             }
         }
 
-
         public async Task <Response> deleteRecord(int id)
         {
             try
             {
-                string query = @"delete from clinical_record where pet_id = @id ";
+                string query = @"delete from clinical_record where clinic_history_id = @id ";
 
                 cn.Conectar();
                 using (var conector = new NpgsqlCommand(query, cn.Conn))

@@ -10,6 +10,7 @@ const UserState = (props) => {
 
     const inicialState = {
         clients: [],
+        client: {},
         user: {},
         loading: false,
         error: false,
@@ -94,10 +95,13 @@ const UserState = (props) => {
     const getUser = async (dato) => {
         try {
             const res = await axios.get(ruta+'/user/'+dato)
-            return res.data.data
+            dispatch({
+                type: 'GET_USER',
+                payload: res.data.data
+            })
         } catch (error) {
             console.log(error)
-            return {}
+            processFailure()
         }
     }
 
@@ -143,6 +147,7 @@ const UserState = (props) => {
     return (
         <UserContext.Provider value={{
             clients: state.clients,
+            client: state.client,
             user: state.user,
             loading: state.loading,
             error: state.error,

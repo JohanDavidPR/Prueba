@@ -41,6 +41,36 @@ namespace api.Database
             return list;
         }
 
+        public async Task<List<User>> getClients()
+        {
+            var list = new List<User>();
+            string query = "select * from users u join rol r on u.rol_id  = r.id where r.id = 3;";
+
+            cn.Conectar();
+
+            using (var conector = new NpgsqlCommand(query, cn.Conn))
+            {
+                using (NpgsqlDataReader item = await conector.ExecuteReaderAsync())
+                {
+                    while (await item.ReadAsync())
+                    {
+                        var user = new User();
+                        user.identification_number = item.GetInt32("identification_number");
+                        user.name = item.GetString("name");
+                        user.last_name = item.GetString("last_name");
+                        user.gender = item.GetString("gender");
+                        user.rol = new Rol();
+                        user.rol.Id = item.GetInt32("rol_id");
+                        user.rol.rol = item.GetString("rol");
+                        list.Add(user);
+                    }
+                }
+                cn.Desconected();
+            }
+
+            return list;
+        }
+
         public async Task <User?> getUser(int id)
         {
             User? user = null;
@@ -125,7 +155,7 @@ namespace api.Database
 
         public async Task <Response> addUser(User user)
         {
-            string query = "insert into users (identification_number, name, last_name, gender, rol) " + 
+            string query = "insert into users (identification_number, name, last_name, gender, rol_id) " + 
                 "values (@id, @name, @l_name, @gender, @rol)";
 
             cn.Conectar();
@@ -167,24 +197,10 @@ namespace api.Database
                     conector.Parameters.AddWithValue("l_name", data.last_name);
                     conector.Parameters.AddWithValue("gender", data.gender);
 
-                    using (NpgsqlDataReader item = await conector.ExecuteReaderAsync())
-                    {
-                        if (item.HasRows)
-                        {
-                            await item.ReadAsync();
-                            user = new User();
-                            user.identification_number = item.GetInt32("identification_number");
-                            user.name = item.GetString("name");
-                            user.last_name = item.GetString("last_name");
-                            user.gender = item.GetString("gender");
-                            user.rol = new Rol();
-                            user.rol.Id = item.GetInt32("rol_id");
-                            user.rol.rol = item.GetString("rol");
-                        }
-                    }
+                    await conector.ExecuteReaderAsync();
                     cn.Desconected();
                 }
-
+                user = await getUser(id);
                 return new Response("Succes", user);
             }
             catch (Exception ex)
